@@ -96,3 +96,6 @@
 .vertical .footer-note{font-size:10px;max-width:440px}
 .vertical .particles{bottom:640px}
 
+
+/* The emblem is shown whole, without the former portrait crop or mask. */
+.portrait{object-fit:contain;object-position:center;mix-blend-mode:normal;mask-image:none;padding:5% 8%}
