@@ -1,0 +1,425 @@
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://pauncatalin-cmd.github.io/overlay-live/assets/font-0.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://pauncatalin-cmd.github.io/overlay-live/assets/font-1.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://pauncatalin-cmd.github.io/overlay-live/assets/font-3.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Barlow';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://pauncatalin-cmd.github.io/overlay-live/assets/font-4.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://pauncatalin-cmd.github.io/overlay-live/assets/font-5.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url(https://pauncatalin-cmd.github.io/overlay-live/assets/font-6.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://pauncatalin-cmd.github.io/overlay-live/assets/font-7.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://pauncatalin-cmd.github.io/overlay-live/assets/font-8.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Barlow Condensed';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(https://pauncatalin-cmd.github.io/overlay-live/assets/font-9.ttf) format('truetype');
+}
+
+:root {
+  --gold: #ffd34f;
+  --white: #f6f3e9;
+  --muted: #a6a8a6;
+  --cyan: #00d9f5;
+  --orange: #ff7a26;
+  --bg: #080a0b;
+  --w: 1920;
+  --h: 1080;
+  /* OBS cutouts — keep in sync with README.md */
+  --cam-x: 64px;
+  --cam-y: 168px;
+  --cam-w: 1120px;
+  --cam-h: 630px;
+  --chat-x: 1224px;
+  --chat-y: 168px;
+  --chat-w: 632px;
+  --chat-h: 790px;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  color: var(--white);
+  font-family: Barlow, Arial, sans-serif;
+}
+a { color: inherit; text-decoration: none; }
+
+#scene {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: calc(var(--w) * 1px);
+  height: calc(var(--h) * 1px);
+  overflow: hidden;
+  transform-origin: top left;
+  isolation: isolate;
+  background: transparent;
+}
+
+/* Opaque studio backdrop with holes so OBS camera + TikStage chat show through. */
+.backdrop,
+.grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  clip-path: polygon(
+    evenodd,
+    0 0, 100% 0, 100% 100%, 0 100%, 0 0,
+    var(--cam-x) var(--cam-y),
+    calc(var(--cam-x) + var(--cam-w)) var(--cam-y),
+    calc(var(--cam-x) + var(--cam-w)) calc(var(--cam-y) + var(--cam-h)),
+    var(--cam-x) calc(var(--cam-y) + var(--cam-h)),
+    var(--cam-x) var(--cam-y),
+    var(--chat-x) var(--chat-y),
+    calc(var(--chat-x) + var(--chat-w)) var(--chat-y),
+    calc(var(--chat-x) + var(--chat-w)) calc(var(--chat-y) + var(--chat-h)),
+    var(--chat-x) calc(var(--chat-y) + var(--chat-h)),
+    var(--chat-x) var(--chat-y)
+  );
+}
+.backdrop {
+  background:
+    radial-gradient(ellipse at 80% 52%, #b4751828, transparent 48%),
+    radial-gradient(ellipse at 8% 30%, #00c5ed10, transparent 48%),
+    var(--bg);
+}
+.grid {
+  background-image:
+    linear-gradient(#ffffff05 1px, transparent 1px),
+    linear-gradient(90deg, #ffffff05 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+
+.edge {
+  position: absolute;
+  inset: 22px;
+  border: 1px solid #ffd34f24;
+  pointer-events: none;
+  z-index: 4;
+}
+.edge:before, .edge:after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 5px;
+  background: var(--gold);
+}
+.edge:before { top: -1px; left: -1px; }
+.edge:after { bottom: -1px; right: -1px; }
+
+.beam {
+  position: absolute;
+  height: 2px;
+  width: 520px;
+  filter: drop-shadow(0 0 9px currentColor);
+  z-index: 1;
+  pointer-events: none;
+  animation: beam 7s ease-in-out infinite alternate;
+}
+.beam.cyan {
+  left: -200px;
+  top: 300px;
+  transform: rotate(-42deg);
+  color: var(--cyan);
+  background: currentColor;
+}
+.beam.orange {
+  right: -160px;
+  top: 820px;
+  transform: rotate(42deg);
+  color: var(--orange);
+  background: currentColor;
+  animation-delay: -3s;
+}
+
+header {
+  position: absolute;
+  top: 36px;
+  left: 64px;
+  right: 64px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #ffd34f30;
+  padding-bottom: 16px;
+}
+.brand {
+  font: 900 italic 46px/.85 'Barlow Condensed', Impact, sans-serif;
+  letter-spacing: -1px;
+}
+.brand span { color: var(--gold); }
+.brand small {
+  display: block;
+  font: 700 8px/1 Barlow, Arial, sans-serif;
+  letter-spacing: 3.2px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.headline {
+  text-align: right;
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  color: var(--gold);
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 4px;
+  margin-bottom: 4px;
+}
+.dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 12px #ffd34f77;
+  animation: pulse 3s ease-in-out infinite;
+}
+h1 {
+  margin: 0;
+  font: 900 italic 42px/.9 'Barlow Condensed', Impact, sans-serif;
+  letter-spacing: -1px;
+  color: var(--white);
+}
+h1 em {
+  font-style: italic;
+  color: var(--gold);
+  font-weight: 900;
+}
+
+/* Transparent holes so OBS sources (camera, TikStage chat) show through. */
+.frame {
+  position: absolute;
+  z-index: 3;
+  pointer-events: none;
+  background: transparent;
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 24px #ffd34f33, inset 0 0 0 1px #ffd34f55;
+}
+.frame .label {
+  position: absolute;
+  left: 14px;
+  top: -11px;
+  z-index: 4;
+  pointer-events: none;
+  background: var(--bg);
+  color: var(--gold);
+  font: 800 10px/1 Barlow, Arial, sans-serif;
+  letter-spacing: 2.4px;
+  padding: 0 8px;
+}
+.cam-frame {
+  left: var(--cam-x);
+  top: var(--cam-y);
+  width: var(--cam-w);
+  height: var(--cam-h);
+}
+.chat-frame {
+  left: var(--chat-x);
+  top: var(--chat-y);
+  width: var(--chat-w);
+  height: var(--chat-h);
+}
+
+.now-playing {
+  position: absolute;
+  left: 64px;
+  top: 818px;
+  width: 1120px;
+  height: 92px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 0 26px;
+  border: 1px solid #ffd34f44;
+  border-left: 4px solid var(--gold);
+  background: linear-gradient(115deg, #ffd34f0c, transparent);
+}
+.now-playing .eq {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 28px;
+  width: 22px;
+  flex-shrink: 0;
+}
+.now-playing .eq i {
+  display: block;
+  width: 4px;
+  background: var(--gold);
+  animation: eq 1s ease-in-out infinite;
+}
+.now-playing .eq i:nth-child(1) { height: 40%; animation-delay: 0s; }
+.now-playing .eq i:nth-child(2) { height: 90%; animation-delay: .15s; }
+.now-playing .eq i:nth-child(3) { height: 60%; animation-delay: .3s; }
+.now-playing .eq i:nth-child(4) { height: 75%; animation-delay: .08s; }
+.now-playing small {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+.now-playing strong {
+  font: 800 italic 28px/1 'Barlow Condensed', Impact, sans-serif;
+  color: var(--white);
+  letter-spacing: .5px;
+}
+.now-playing strong span { color: var(--gold); }
+
+.socials {
+  position: absolute;
+  left: 64px;
+  bottom: 36px;
+  z-index: 5;
+  display: flex;
+  gap: 12px;
+}
+.social {
+  min-width: 210px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid #ffffff2b;
+  background: #ffffff03;
+  padding: 12px 18px;
+}
+.social img { width: 26px; height: 26px; object-fit: contain; }
+.social small {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+  margin-bottom: 3px;
+  font-weight: 700;
+}
+.social strong { font-size: 17px; font-weight: 700; }
+.social.kick { background: #53fc18; color: #071404; border-color: #53fc18; }
+.social.kick small { color: #173a10; }
+.social.kick img { filter: brightness(0); }
+
+footer {
+  position: absolute;
+  right: 64px;
+  bottom: 44px;
+  z-index: 5;
+  font: 800 italic 28px/1 'Barlow Condensed', Impact, sans-serif;
+  letter-spacing: 1px;
+  color: var(--gold);
+}
+footer span { margin-left: 10px; font: 400 20px Arial, sans-serif; }
+
+/* Vertical 1080×1920 — keep essential UI above TikTok's bottom-third chat (~y 1280). */
+.vertical {
+  --w: 1080;
+  --h: 1920;
+  --cam-x: 70px;
+  --cam-y: 200px;
+  --cam-w: 940px;
+  --cam-h: 528px;
+  --chat-x: 70px;
+  --chat-y: 754px;
+  --chat-w: 940px;
+  --chat-h: 430px;
+}
+.vertical header {
+  top: 48px;
+  left: 70px;
+  right: 70px;
+  padding-bottom: 18px;
+}
+.vertical .brand { font-size: 52px; }
+.vertical h1 { font-size: 36px; }
+.vertical .now-playing {
+  left: 70px;
+  top: 1210px;
+  width: 940px;
+  height: 86px;
+}
+.vertical .socials {
+  left: 70px;
+  right: 70px;
+  bottom: auto;
+  top: 1316px;
+  width: 940px;
+}
+.vertical .social { flex: 1; min-width: 0; padding: 14px 16px; }
+.vertical footer {
+  right: 70px;
+  bottom: auto;
+  top: 1420px;
+  font-size: 32px;
+}
+.vertical .beam.cyan { top: 420px; }
+.vertical .beam.orange { top: 1100px; right: -200px; }
+
+@keyframes pulse {
+  50% { opacity: .45; box-shadow: 0 0 4px #ffd34f44; }
+}
+@keyframes beam {
+  to { opacity: .35; translate: 45px 25px; }
+}
+@keyframes eq {
+  0%, 100% { transform: scaleY(.45); }
+  50% { transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *:before, *:after { animation: none !important; }
+}
