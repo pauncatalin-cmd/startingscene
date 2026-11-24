@@ -276,54 +276,6 @@ h1 em {
   height: var(--chat-h);
 }
 
-.now-playing {
-  position: absolute;
-  left: 64px;
-  top: 818px;
-  width: 1120px;
-  height: 92px;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  padding: 0 26px;
-  border: 1px solid #ffd34f44;
-  border-left: 4px solid var(--gold);
-  background: linear-gradient(115deg, #ffd34f0c, transparent);
-}
-.now-playing .eq {
-  display: flex;
-  align-items: flex-end;
-  gap: 3px;
-  height: 28px;
-  width: 22px;
-  flex-shrink: 0;
-}
-.now-playing .eq i {
-  display: block;
-  width: 4px;
-  background: var(--gold);
-  animation: eq 1s ease-in-out infinite;
-}
-.now-playing .eq i:nth-child(1) { height: 40%; animation-delay: 0s; }
-.now-playing .eq i:nth-child(2) { height: 90%; animation-delay: .15s; }
-.now-playing .eq i:nth-child(3) { height: 60%; animation-delay: .3s; }
-.now-playing .eq i:nth-child(4) { height: 75%; animation-delay: .08s; }
-.now-playing small {
-  display: block;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 3px;
-  color: var(--muted);
-  margin-bottom: 4px;
-}
-.now-playing strong {
-  font: 800 italic 28px/1 'Barlow Condensed', Impact, sans-serif;
-  color: var(--white);
-  letter-spacing: .5px;
-}
-.now-playing strong span { color: var(--gold); }
-
 .socials {
   position: absolute;
   left: 64px;
@@ -387,24 +339,18 @@ footer span { margin-left: 10px; font: 400 20px Arial, sans-serif; }
 }
 .vertical .brand { font-size: 52px; }
 .vertical h1 { font-size: 36px; }
-.vertical .now-playing {
-  left: 70px;
-  top: 1210px;
-  width: 940px;
-  height: 86px;
-}
 .vertical .socials {
   left: 70px;
   right: 70px;
   bottom: auto;
-  top: 1316px;
+  top: 1210px;
   width: 940px;
 }
 .vertical .social { flex: 1; min-width: 0; padding: 14px 16px; }
 .vertical footer {
   right: 70px;
   bottom: auto;
-  top: 1420px;
+  top: 1316px;
   font-size: 32px;
 }
 .vertical .beam.cyan { top: 420px; }
@@ -415,10 +361,6 @@ footer span { margin-left: 10px; font: 400 20px Arial, sans-serif; }
 }
 @keyframes beam {
   to { opacity: .35; translate: 45px 25px; }
-}
-@keyframes eq {
-  0%, 100% { transform: scaleY(.45); }
-  50% { transform: scaleY(1); }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *:before, *:after { animation: none !important; }
