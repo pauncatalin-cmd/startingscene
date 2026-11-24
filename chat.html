@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1920">
+  <title>KIP ZONE — Pauză · Chat 1920×1080</title>
+  <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+  <div id="scene">
+    <div class="backdrop"></div>
+    <div class="grid"></div>
+    <div class="beam cyan"></div>
+    <div class="beam orange"></div>
+    <div class="edge"></div>
+
+    <header>
+      <div class="brand">KIP<span>ZONE</span>.RO<small>GAMING &amp; COMMUNITY</small></div>
+      <div class="headline">
+        <div class="eyebrow"><span class="dot"></span>CHAT TIME</div>
+        <h1>PAUZĂ · <em>REVIN IMEDIAT</em></h1>
+      </div>
+    </header>
+
+    <!-- OBS: place source "Camera " here. Inner cutout 1120×630 at 64,168 -->
+    <div class="frame cam-frame" data-obs-source="Camera " data-obs-rect="64,168,1120,630">
+      <span class="label">CAMERA</span>
+    </div>
+
+    <!-- OBS: place TikStage Chat browser source here. Inner cutout 632×790 at 1224,168 -->
+    <div class="frame chat-frame" data-obs-source="Web - Chat TikStage" data-obs-rect="1224,168,632,790">
+      <span class="label">CHAT TIKTOK</span>
+    </div>
+
+    <div class="now-playing">
+      <div class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div>
+        <small>ACUM SUNĂ</small>
+        <strong>Muzica live · <span>KipZone</span></strong>
+      </div>
+    </div>
+
+    <div class="socials">
+      <div class="social kick">
+        <img src="https://pauncatalin-cmd.github.io/overlay-live/assets/kick.svg" alt="">
+        <div><small>KICK</small><strong>kipzone</strong></div>
+      </div>
+      <div class="social">
+        <img src="https://pauncatalin-cmd.github.io/overlay-live/assets/youtube.svg" alt="">
+        <div><small>YOUTUBE</small><strong>@kipanu</strong></div>
+      </div>
+      <div class="social">
+        <img src="https://pauncatalin-cmd.github.io/overlay-live/assets/tiktok.svg" alt="">
+        <div><small>TIKTOK</small><strong>@kipzone.ro</strong></div>
+      </div>
+    </div>
+
+    <footer>KIPZONE.RO <span>↗</span></footer>
+  </div>
+  <script>
+    (function () {
+      const scene = document.getElementById('scene');
+      function fit() {
+        const s = Math.min(innerWidth / 1920, innerHeight / 1080);
+        scene.style.transform = 'translate(' + ((innerWidth - 1920 * s) / 2) + 'px,' + ((innerHeight - 1080 * s) / 2) + 'px) scale(' + s + ')';
+      }
+      fit();
+      addEventListener('resize', fit);
+    })();
+  </script>
+</body>
+</html>
